@@ -18,6 +18,10 @@ setup(
             os.path.join("share", package_name, "launch"),
             glob("launch/*.launch.py"),
         ),
+        (
+            os.path.join("share", package_name, "worlds"),
+            glob("worlds/*.sdf"),
+        ),
     ],
     install_requires=["setuptools"],
     zip_safe=True,
@@ -27,6 +31,7 @@ setup(
         "console_scripts": [
             "publisher_node = mobile_robot_lab.publisher_node:main",
             "subscriber_node = mobile_robot_lab.subscriber_node:main",
+            "pid_waypoint_node = mobile_robot_lab.pid_waypoint_node:main",
         ],
     },
 )
