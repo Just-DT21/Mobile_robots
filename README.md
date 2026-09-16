@@ -1,67 +1,92 @@
 # Mobile_robots
 
-ROS 2 Jazzy mobile robot lab repository. The goal is to avoid re-programming the lab PC every time and keep the experiments ready to clone and run.
+ROS 2 Jazzy mobile robot lab repository. The experiments are simulation-first so they can be cloned and demonstrated on a lab PC without physical robot hardware.
 
 ## Lab setup
 
-Requirements on the lab PC:
+Requirements:
 - Ubuntu with ROS 2 Jazzy
 - Turtlesim
 - colcon
-- A graphical desktop session
+- Gazebo Harmonic (gz) for Experiment 5
+- Graphical desktop session
 
 Clone and enter the repository:
 
-```bash
-git clone https://github.com/Just-DT21/Mobile_robots.git
-cd Mobile_robots
-```
+    git clone https://github.com/Just-DT21/Mobile_robots.git
+    cd Mobile_robots
 
-Start the lab launcher:
+Start the launcher:
 
-```bash
-bash lab.sh
-```
+    bash lab.sh
 
-The first run automatically builds the ROS 2 Python package. After that, the launcher gives an experiment menu.
+The launcher rebuilds the package so newly added experiments are included.
 
-## Experiments currently implemented
+## Experiments
 
 ### Experiment 1
 ROS 2 nodes, topics, publishers, subscribers and messages using Turtlesim.
 
-It demonstrates:
-- `/teleop_turtle`
-- `/turtlesim`
-- `/turtle1/cmd_vel`
-- `geometry_msgs/msg/Twist`
-- topic inspection and message echo
-- keyboard-controlled turtle motion
-- ROS graph inspection
-
 ### Experiment 2
-ROS 2 workspace and Python package with a publisher and subscriber.
+ROS 2 workspace and Python package with a publisher and subscriber using std_msgs/msg/String.
 
-It demonstrates:
-- `ament_python` package structure
-- Python publisher node
-- Python subscriber node
-- `std_msgs/msg/String`
-- publisher/subscriber communication on `/chatter`
+### Experiment 5 - Gazebo World Creation and Model Insertion
+
+Based on the lab sheet: create a custom Gazebo Harmonic SDF world, add a ground plane and lighting, and insert geometric models. The included world contains:
+- Ground plane
+- Directional light
+- Box
+- Sphere
+- Cylinder
+- Capsule
+- Ellipsoid
+
+Run with:
+
+    bash lab.sh
+    # choose 5
+
+The world can also be launched directly:
+
+    ros2 launch mobile_robot_lab experiment5.launch.py
+
+### Experiment 6 - PID-Based Path Planning and Motion Control
+
+Based on the lab sheet: a ROS 2 Python PID controller tracks predefined waypoints in Turtlesim. It calculates distance and heading errors and publishes velocity commands on /cmd_vel. The waypoint completion threshold is ed < 0.10.
+
+The controller automatically follows:
+
+    (8,8) -> (8,3) -> (3,3) -> (3,8) -> (5.5,5.5)
+
+Run with:
+
+    bash lab.sh
+    # choose 6
+
+Live velocity commands can be viewed on /cmd_vel. After the run, the controller saves:
+
+    ~/mobile_robot_lab_ex6_results/
+    pid_data.csv
+    velocity_vs_time.png
+    trajectory_x_vs_y.png
+    distance_error.png
+
+These correspond to the required Experiment 6 result plots:
+- Linear and angular velocity with respect to time
+- X-position vs Y-position
+- Distance error
 
 ## Simulation-first
 
-The experiments are intended to be demonstrated in simulation under ideal conditions. No physical robot or hardware is required for the implemented experiments.
+All implemented experiments are designed for simulation and ideal lab demonstration. No physical mobile robot is required.
 
-## Useful manual commands
+## Useful ROS 2 commands
 
-```bash
-source /opt/ros/jazzy/setup.bash
-source install/setup.bash
+    source /opt/ros/jazzy/setup.bash
+    source install/setup.bash
 
-ros2 node list
-ros2 topic list
-ros2 topic info /turtle1/cmd_vel
-ros2 interface show geometry_msgs/msg/Twist
-ros2 topic echo /turtle1/cmd_vel
-```
+    ros2 node list
+    ros2 topic list
+    ros2 topic info /cmd_vel
+    ros2 topic echo /cmd_vel
+    ros2 interface show geometry_msgs/msg/Twist
